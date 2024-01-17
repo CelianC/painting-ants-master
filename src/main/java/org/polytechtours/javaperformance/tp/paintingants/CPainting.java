@@ -34,24 +34,24 @@ import java.awt.event.MouseListener;
 public class CPainting extends Canvas implements MouseListener {
   private static final long serialVersionUID = 1L;
   // matrice servant pour le produit de convolution
-  static private float[][] mMatriceConv9 = new float[3][3];
-  static private float[][] mMatriceConv25 = new float[5][5];
-  static private float[][] mMatriceConv49 = new float[7][7];
+  static private final float[][] mMatriceConv9 = new float[3][3];
+  static private final float[][] mMatriceConv25 = new float[5][5];
+  static private final float[][] mMatriceConv49 = new float[7][7];
   // Objet de type Graphics permettant de manipuler l'affichage du Canvas
   private Graphics mGraphics;
   // Objet ne servant que pour les bloc synchronized pour la manipulation du
   // tableau des couleurs
-  private Object mMutexCouleurs = new Object();
+  private final Object mMutexCouleurs = new Object();
   // tableau des couleurs, il permert de conserver en memoire l'état de chaque
   // pixel du canvas, ce qui est necessaire au deplacemet des fourmi
   // il sert aussi pour la fonction paint du Canvas
-  private Color[][] mCouleurs;
+  private final Color[][] mCouleurs;
   // couleur du fond
-  private Color mCouleurFond = new Color(255, 255, 255);
+  private final Color mCouleurFond = new Color(255, 255, 255);
   // dimensions
   private Dimension mDimension = new Dimension();
 
-  private PaintingAnts mApplis;
+  private final PaintingAnts mApplis;
 
   private boolean mSuspendu = false;
 
@@ -74,7 +74,7 @@ public class CPainting extends Canvas implements MouseListener {
     synchronized (mMutexCouleurs) {
       for (i = 0; i != mDimension.width; i++) {
         for (j = 0; j != mDimension.height; j++) {
-          mCouleurs[i][j] = new Color(mCouleurFond.getRed(), mCouleurFond.getGreen(), mCouleurFond.getBlue());
+          mCouleurs[i][j] = mCouleurFond;
         }
       }
     }
@@ -89,14 +89,6 @@ public class CPainting extends Canvas implements MouseListener {
     synchronized (mMutexCouleurs) {
       return mCouleurs[x][y];
     }
-  }
-
-  /******************************************************************************
-   * Titre : Color getDimension Description : Cette fonction renvoie la
-   * dimension de la peinture
-   ******************************************************************************/
-  public Dimension getDimension() {
-    return mDimension;
   }
 
   /******************************************************************************
@@ -126,10 +118,9 @@ public class CPainting extends Canvas implements MouseListener {
       mGraphics.clearRect(0, 0, mDimension.width, mDimension.height);
 
       // initialisation de la matrice des couleurs
-
       for (i = 0; i != mDimension.width; i++) {
         for (j = 0; j != mDimension.height; j++) {
-          mCouleurs[i][j] = new Color(mCouleurFond.getRed(), mCouleurFond.getGreen(), mCouleurFond.getBlue());
+          mCouleurs[i][j] = mCouleurFond;
         }
       }
     }

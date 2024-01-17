@@ -8,37 +8,36 @@ import java.util.Random;
 public class CFourmi {
   // Tableau des incrémentations à effectuer sur la position des fourmis
   // en fonction de la direction du deplacement
-  static private int[][] mIncDirection = new int[8][2];
+  static private final int[][] mIncDirection = new int[8][2];
   // le generateur aléatoire (Random est thread safe donc on la partage)
-  private static Random GenerateurAleatoire = new Random();
+  private static final Random GenerateurAleatoire = new Random();
   // couleur déposé par la fourmi
-  private Color mCouleurDeposee;
-  private float mLuminanceCouleurSuivie;
+  private final Color mCouleurDeposee;
+  private final float mLuminanceCouleurSuivie;
   // objet graphique sur lequel les fourmis peuvent peindre
-  private CPainting mPainting;
+  private final CPainting mPainting;
   // Coordonées de la fourmi
   private int x, y;
   // Proba d'aller a gauche, en face, a droite, de suivre la couleur
-  private float[] mProba = new float[4];
+  private final float[] mProba = new float[4];
   // Numéro de la direction dans laquelle la fourmi regarde
   private int mDirection;
   // Taille de la trace de phéromones déposée par la fourmi
-  private int mTaille;
+  private final int mTaille;
   // Pas d'incrémentation des directions suivant le nombre de directions
   // allouées à la fourmies
-  private int mDecalDir;
+  private final int mDecalDir;
   // l'applet
-  private PaintingAnts mApplis;
+  private final PaintingAnts mApplis;
   // seuil de luminance pour la détection de la couleur recherchée
-  private float mSeuilLuminance;
-  // nombre de déplacements de la fourmi
-  private long mNbDeplacements;
+  private final float mSeuilLuminance;
+    // nombre de déplacements de la fourmi
 
-  /*************************************************************************************************
+    /*************************************************************************************************
   */
-  public CFourmi(Color pCouleurDeposee, Color pCouleurSuivie, float pProbaTD, float pProbaG, float pProbaD,
-      float pProbaSuivre, CPainting pPainting, char pTypeDeplacement, float pInit_x, float pInit_y, int pInitDirection,
-      int pTaille, float pSeuilLuminance, PaintingAnts pApplis) {
+  public CFourmi(Color pCouleurDeposee, float pProbaTD, float pProbaG, float pProbaD,
+                 float pProbaSuivre, CPainting pPainting, char pTypeDeplacement, int pInitDirection,
+                 int pTaille, float pSeuilLuminance, PaintingAnts pApplis) {
 
     mCouleurDeposee = pCouleurDeposee;
     mLuminanceCouleurSuivie = 0.2426f * pCouleurDeposee.getRed() + 0.7152f * pCouleurDeposee.getGreen()
@@ -85,7 +84,6 @@ public class CFourmi {
     CFourmi.mIncDirection[7][1] = -1;
 
     mSeuilLuminance = pSeuilLuminance;
-    mNbDeplacements = 0;
   }
 
   /*************************************************************************************************
@@ -98,13 +96,7 @@ public class CFourmi {
     int i, j;
     Color lCouleur;
 
-    mNbDeplacements++;
-
-    dir[0] = 0;
-    dir[1] = 0;
-    dir[2] = 0;
-
-    // le tableau dir contient 0 si la direction concernée ne contient pas la
+      // le tableau dir contient 0 si la direction concernée ne contient pas la
     // couleur
     // à suivre, et 1 sinon (dir[0]=gauche, dir[1]=tt_droit, dir[2]=droite)
     i = modulo(x + CFourmi.mIncDirection[modulo(mDirection - mDecalDir, 8)][0], mPainting.getLargeur());
@@ -144,7 +136,8 @@ public class CFourmi {
     tirage = GenerateurAleatoire.nextFloat();// Math.random();
 
     // la fourmi suit la couleur
-    if (((tirage <= mProba[3]) && ((dir[0] + dir[1] + dir[2]) > 0)) || ((dir[0] + dir[1] + dir[2]) == 3)) {
+    int i1 = dir[0] + dir[1] + dir[2];
+    if (((tirage <= mProba[3]) && (i1 > 0)) || (i1 == 3)) {
       prob1 = (dir[0]) * mProba[0];
       prob2 = (dir[1]) * mProba[1];
       prob3 = (dir[2]) * mProba[2];
@@ -158,16 +151,13 @@ public class CFourmi {
     total = prob1 + prob2 + prob3;
     prob1 = prob1 / total;
     prob2 = prob2 / total + prob1;
-    prob3 = prob3 / total + prob2;
 
-    // incrémentation de la direction de la fourmi selon la direction choisie
+      // incrémentation de la direction de la fourmi selon la direction choisie
     tirage = GenerateurAleatoire.nextFloat();// Math.random();
     if (tirage < prob1) {
       mDirection = modulo(mDirection - mDecalDir, 8);
     } else {
-      if (tirage < prob2) {
-        /* rien, on va tout droit */
-      } else {
+      if (tirage >= prob2) {
         mDirection = modulo(mDirection + mDecalDir, 8);
       }
     }
@@ -185,35 +175,16 @@ public class CFourmi {
   }
 
   /*************************************************************************************************
-  */
-  public long getNbDeplacements() {
-    return mNbDeplacements;
-  }
-  /****************************************************************************/
-
-  /*************************************************************************************************
-  */
-  public int getX() {
-    return x;
-  }
-
-  /*************************************************************************************************
-  */
-  public int getY() {
-    return y;
-  }
-
-  /*************************************************************************************************
    * Titre : modulo Description : Fcontion de modulo permettant au fourmi de
    * reapparaitre de l autre coté du Canvas lorsque qu'elle sorte de ce dernier
    *
-   * @param x
-   *          valeur
+   * @param n1 : valeur
+   * @param n2 : valeur
    *
    * @return int
    */
-  private int modulo(int x, int m) {
-    return (x + m) % m;
+  private int modulo(int n1, int n2) {
+    return (n1 + n2) % n2;
   }
 
   /*************************************************************************************************
@@ -222,18 +193,9 @@ public class CFourmi {
    *
    */
   private boolean testCouleur(Color pCouleur) {
-    boolean lReponse = false;
-    float lLuminance;
-
     /* on calcule la luminance */
-    lLuminance = 0.2426f * pCouleur.getRed() + 0.7152f * pCouleur.getGreen() + 0.0722f * pCouleur.getBlue();
+    float lLuminance = 0.2426f * pCouleur.getRed() + 0.7152f * pCouleur.getGreen() + 0.0722f * pCouleur.getBlue();
 
-    /* test */
-    if (Math.abs(mLuminanceCouleurSuivie - lLuminance) < mSeuilLuminance) {
-      lReponse = true;
-      // System.out.print(x);
-    }
-
-    return lReponse;
+    return (Math.abs(mLuminanceCouleurSuivie - lLuminance) < mSeuilLuminance);
   }
 }
