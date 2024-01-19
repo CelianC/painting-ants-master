@@ -332,10 +332,6 @@ public class CPainting extends Canvas implements MouseListener {
    * couleurs
    ******************************************************************************/
   public void setCouleur(int x, int y, Color c, int pTaille) {
-    int i, j, k, l, m, n;
-    float R, G, B;
-    Color lColor;
-
     synchronized (mMutexCouleurs) {
       if (!mSuspendu) {
         // on colorie la case sur laquelle se trouve la fourmi
