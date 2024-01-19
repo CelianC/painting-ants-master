@@ -294,6 +294,13 @@ public class CPainting extends Canvas implements MouseListener {
     }
   }
 
+  /**
+   * Fonction de diffusion de la couleur
+   * @param x: coordonnée x du pixel
+   * @param y: coordonnée y du pixel
+   * @param pSize: taille de la matrice de convolution
+   * @param pMatrice: matrice de convolution
+   */
   public void diffuseColor(int x, int y, int pSize, float[][] pMatrice){
       int i, j, k, l, m, n;
       float R, G, B;

@@ -35,13 +35,13 @@ public class CFourmi {
 
     /*************************************************************************************************
   */
-  public CFourmi(Color pCouleurDeposee, float pProbaTD, float pProbaG, float pProbaD,
+  public CFourmi(Color pCouleurDeposee, Color pCouleurSuivie, float pProbaTD, float pProbaG, float pProbaD,
                  float pProbaSuivre, CPainting pPainting, char pTypeDeplacement, int pInitDirection,
                  int pTaille, float pSeuilLuminance, PaintingAnts pApplis) {
 
     mCouleurDeposee = pCouleurDeposee;
-    mLuminanceCouleurSuivie = 0.2426f * pCouleurDeposee.getRed() + 0.7152f * pCouleurDeposee.getGreen()
-        + 0.0722f * pCouleurDeposee.getBlue();
+    mLuminanceCouleurSuivie = 0.2426f * pCouleurSuivie.getRed() + 0.7152f * pCouleurSuivie.getGreen()
+        + 0.0722f * pCouleurSuivie.getBlue();
     mPainting = pPainting;
     mApplis = pApplis;
 

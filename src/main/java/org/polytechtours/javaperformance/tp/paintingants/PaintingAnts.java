@@ -214,7 +214,7 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
   private void readParameterFourmis() {
     String lChaine;
     int R, G, B;
-    Color lCouleurDeposee;
+    Color lCouleurDeposee, lCouleurSuivi;
     CFourmi lFourmi;
     float lProbaTD, lProbaG, lProbaD, lProbaSuivre, lSeuilLuminance;
     char lTypeDeplacement;
@@ -300,7 +300,8 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
         R = readIntParameter(lSTCouleurSuivi.nextToken());
         G = readIntParameter(lSTCouleurSuivi.nextToken());
         B = readIntParameter(lSTCouleurSuivi.nextToken());
-          System.out.print("(" + R + "," + G + "," + B + ")");
+        System.out.print("(" + R + "," + G + "," + B + ")");
+        lCouleurSuivi = new Color(R, G, B);
 
         // lecture de la position de la direction de départ et de la taille de
         // la trace
@@ -349,7 +350,7 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
             "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
 
         // création de la fourmi
-        lFourmi = new CFourmi(lCouleurDeposee, lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
+        lFourmi = new CFourmi(lCouleurDeposee, lCouleurSuivi, lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
             lTypeDeplacement, lInitDirection, lTaille, lSeuilLuminance, this);
         mColonie.addElement(lFourmi);
         lNbFourmis++;
@@ -410,7 +411,7 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
             "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
 
         // création et ajout de la fourmi dans la colonie
-        lFourmi = new CFourmi(lTabColor[i], lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
+        lFourmi = new CFourmi(lTabColor[i],lTabColor[lColor], lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
             lTypeDeplacement, lInitDirection, lTaille, lSeuilLuminance, this);
         mColonie.addElement(lFourmi);
       }
