@@ -1,2 +1,3 @@
 # painting-ants
-Some ants painting not so random stuff
+La branche main est le code de base.
+La branche modifs est le code modifié.
