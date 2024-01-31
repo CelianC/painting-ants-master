@@ -36,9 +36,9 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
   private Timer fpsTimer;
 
   /** Fourmis per second :) */
-  private Long fpsCounter = 0L;
+  private long fpsCounter = 0L;
   /** stocke la valeur du compteur lors du dernier timer */
-  private Long lastFps = 0L;
+  private long lastFps = 0L;
 
   /****************************************************************************
    * incrémenter le compteur
