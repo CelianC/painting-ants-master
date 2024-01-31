@@ -194,7 +194,7 @@ public class CFourmi {
    */
   private boolean testCouleur(Color pCouleur) {
     /* on calcule la luminance */
-    float lLuminance = 0.2426f * pCouleur.getRed() + 0.7152f * pCouleur.getGreen() + 0.0722f * pCouleur.getBlue();
+    float lLuminance = 0.2126f * pCouleur.getRed() + 0.7152f * pCouleur.getGreen() + 0.0722f * pCouleur.getBlue();
 
     return (Math.abs(mLuminanceCouleurSuivie - lLuminance) < mSeuilLuminance);
   }
