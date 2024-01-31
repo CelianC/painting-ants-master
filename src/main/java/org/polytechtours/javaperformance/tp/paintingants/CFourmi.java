@@ -40,7 +40,7 @@ public class CFourmi {
                  int pTaille, float pSeuilLuminance, PaintingAnts pApplis) {
 
     mCouleurDeposee = pCouleurDeposee;
-    mLuminanceCouleurSuivie = 0.2426f * pCouleurSuivie.getRed() + 0.7152f * pCouleurSuivie.getGreen()
+    mLuminanceCouleurSuivie = 0.2126f * pCouleurSuivie.getRed() + 0.7152f * pCouleurSuivie.getGreen()
         + 0.0722f * pCouleurSuivie.getBlue();
     mPainting = pPainting;
     mApplis = pApplis;
